@@ -2,13 +2,13 @@ import {getOffset, emptyOrRow} from '../helper.js'
 import {config} from "../config.js"
 import {query} from './db.js'
 
-interface IProgrammingLanguage {
-    name : string,
-    released_year:number,
-    githut_rank:number,
-    tiobe_rank:number,
-    pypl_rank:number
-}
+// interface IProgrammingLanguage {
+//     name : string,
+//     released_year:number,
+//     githut_rank:number,
+//     tiobe_rank:number,
+//     pypl_rank:number
+// }
 
 export const getMultiple = async (page = 1) => {
     const offset = getOffset(page, config.listPerPage)
@@ -23,7 +23,8 @@ export const getMultiple = async (page = 1) => {
     }
 }
 
-export const create = async (programmingLanguage:IProgrammingLanguage) => {
+export const create = async (programmingLanguage) => {
+    console.log(programmingLanguage.file)
     const result = await query(`insert into programming_languages \n +
            (name, released_year, githut_rank, pypl_rank, tiobe_rank) \n +
             VALUES`,
@@ -35,9 +36,10 @@ export const create = async (programmingLanguage:IProgrammingLanguage) => {
     return {message}
 }
 
-export const update = async (id, programmingLanguage:IProgrammingLanguage) => {
+export const update = async (id, programmingLanguage) => {
     const result = await query(`update programming_languages set name = ?,released_year = ?,
-    githut_rank = ?,pypl_rank=?,tiobe_rank=?`, [programmingLanguage.name, programmingLanguage.released_year, programmingLanguage.githut_rank, programmingLanguage.pypl_rank, programmingLanguage.tiobe_rank])
+    githut_rank = ?,pypl_rank=?,tiobe_rank=?`,
+        [programmingLanguage.name, programmingLanguage.released_year, programmingLanguage.githut_rank, programmingLanguage.pypl_rank, programmingLanguage.tiobe_rank])
 
     let message = 'Error in updating programming language';
 
